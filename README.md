@@ -12,6 +12,12 @@ nim c -d:release helloworld.nim
 nim --cc:clang -d:release c hello // compile with Clang instead of GCC
 ```
 
+## 常用文档页面
+
+[https://nim-lang.org/docs/strformat.html](https://nim-lang.org/docs/strformat.html)
+
+[https://nim-lang.org/docs/json.html](https://nim-lang.org/docs/json.html)
+
 ## 资源
 
 [https://nim-lang.org](https://nim-lang.org)

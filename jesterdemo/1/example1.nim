@@ -1,5 +1,9 @@
 import htmlgen
 import jester
+import json
+import osproc
+import os
+import strformat
 
 routes:
   get "/":
@@ -27,5 +31,30 @@ routes:
     echo "args = ", @"args"
     resp "basic"
 
-  get "/api/v1/cgi":
-    echo request.params
+  post "/api/v1/cgi":
+    type 
+      ReqObj = object
+        script: string
+        args: seq[string]
+
+    var jsonobj = parseJson(request.body)
+    var reqobj = to(jsonobj, ReqObj)
+    var p = startProcess(reqobj.script, 
+      "", 
+      reqobj.args, 
+      nil,
+      {poEchoCmd, poUsePath, poStdErrToStdOut})
+    var ret = waitForExit(p)
+    p.close()
+    echo "ret = ", ret
+    resp "success"
+
+  post "/api/v1/cgi2":
+    type 
+      ReqObj2 = object
+        cmd: string
+    var jsonobj = parseJson(request.body)
+    var reqobj = to(jsonobj, ReqObj2)
+    var ret = execShellCmd(reqobj.cmd)
+    resp fmt("success, ret = {ret}")
+
