@@ -1,0 +1,1 @@
+--define:msgpack_obj_to_map
